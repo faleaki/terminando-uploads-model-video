@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\GenreResource;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
@@ -23,10 +24,10 @@ class GenreController extends BasicCrudController
         ];
     }
 
-    public function index()
-    {
-        return Genre::all();
-    }
+//    public function index()
+//    {
+//        return Genre::all();
+//    }
 
     public function store(Request $request)
     {
@@ -40,7 +41,8 @@ class GenreController extends BasicCrudController
         });
         
         $obj->refresh();
-        return $obj;
+        $resource = $this->resource();
+        return new $resource($obj);
     }
 /*
     public function show(Genre $genre)
@@ -58,7 +60,8 @@ class GenreController extends BasicCrudController
             $self->handleRelations($obj, $request);
             return $obj;
         });
-        return $obj;
+        $resource = $this->resource();
+        return new $resource($obj);
     }
 
     protected function handleRelations($genre, Request $request)
@@ -79,4 +82,13 @@ class GenreController extends BasicCrudController
         return $this->rules;
     }
 
+    protected function resource()
+    {
+      return GenreResource::class;
+    }
+
+    protected function resourceCollection()
+    {
+      return $this->resource();
+    }
 }

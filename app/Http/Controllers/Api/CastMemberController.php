@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BasicCrudController;
+use App\Http\Resources\CastMemberResource;
 use App\Models\CastMember;
 use Illuminate\Http\Request;
 
@@ -18,16 +19,29 @@ class CastMemberController extends  BasicCrudController
         'type' => 'required|in:' . implode(',', [CastMember::TYPE_ACTOR, CastMember::TYPE_DIRECTOR])
       ];
     }
+
     protected function model()
     {
         return CastMember::class;
     }
+
     protected function rulesStore()
     {
         return $this->rules;
     }
+
     protected function rulesUpdate()
     {
         return $this->rules;
+    }
+
+    protected function resource()
+    {
+      return CastMemberResource::class;
+    }
+
+    protected function resourceCollection()
+    {
+      return $this->resource();
     }
 }
